@@ -41,7 +41,7 @@ resource ibm_is_vpc_address_prefix subnet_prefix {
 
 ##############################################################################
 # Create Subnets
-# Name will be <unique_id>-zone-<zone>-subnet-<count>
+# Name will be <unique_id>-zone-<zone>-subnet-<number>
 ##############################################################################
 
 resource ibm_is_subnet subnet {

@@ -129,7 +129,7 @@ variable acl_rules {
       action      = "allow"
       source      = "0.0.0.0/0"
       destination = "0.0.0.0/0"
-      frog   = "inbound"
+      direction   = "inbound"
     },
     {
       name        = "allow-all-outbound"
