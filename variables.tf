@@ -282,10 +282,6 @@ variable security_group_rules {
     allow_all_inbound = {
       source    = "0.0.0.0/0"
       direction = "inbound"
-      icmp = {
-        code = 0
-        type = 0
-      }
     }
   }
 
@@ -294,11 +290,23 @@ variable security_group_rules {
     condition     = length(flatten([
       # Convert rules from object to array and search
       for rule in [ for object_rule in keys(var.security_group_rules): var.security_group_rules[object_rule] ]:
-      # Return false if there are fields other than these fice used
+      # Return false if there are fields other than these five used
       false if length([
         for field in keys(rule):
         true if !contains(["direction", "source", "tcp", "udp", "icmp"], field)
       ]) > 0
+    ])) == 0
+  }
+
+  validation {
+    error_message = "Security group rules can only contain one `icmp`, `tcp`, or `udp` field."
+    condition     = length(flatten([
+      # Convert rules from object to array and search
+      for rule in [ for object_rule in keys(var.security_group_rules): var.security_group_rules[object_rule] ]:
+      false if length([
+        for field in keys(rule):
+        true if contains(["icmp", "tcp", "udp"], field)
+      ]) > 1
     ])) == 0
   }
 
