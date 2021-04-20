@@ -1,6 +1,6 @@
 # Multizone VPC
 
-This module creates a multizone VPC in a single region in 3 zones. It will create an example ACL and can optionally create public gateways for each zone. 
+This module creates a VPC with any number of subnets across 1, 2, or 3 zones. It will create an example ACL and can optionally create public gateways for each zone. 
 
 ![Multizone VPC](./.docs/multizone.png)
 
