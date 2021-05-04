@@ -4,16 +4,35 @@
 ##############################################################################
 
 locals {
+
+      subnet_cidr_list        = flatten([
+            # for each zone in the cidr blocks map
+            for zone in keys(var.cidr_blocks): [
+                  # Create an object containing the rule name and the CIDR block
+                  for cidr in var.cidr_blocks[zone]:
+                  {     
+                        # Format name zone-<>-subnet-<>
+                        name = "zone-${
+                              index(keys(var.cidr_blocks), zone) + 1
+                        }-subnet-${
+                              index(var.cidr_blocks[zone], cidr) + 1
+                        }"
+                        cidr = cidr
+                  }
+            ]
+      ])
+
       allow_subnet_cidr_rules = [
-            # for i in var.cidr_blocks:
-            # {
-            #       name        = "allow-traffic-subnet-${index(var.cidr_blocks, i) + 1}"
-            #       action      = "allow"
-            #       source      = i
-            #       destination = "0.0.0.0/0"
-            #       direction   = "inbound"
-            # }
+            for subnet in local.subnet_cidr_list:           
+            {
+                  name        = "allow-traffic-${subnet.name}"
+                  action      = "allow"
+                  source      = subnet.cidr
+                  destination = "0.0.0.0/0"
+                  direction   = "inbound"
+            }
       ]
+
       acl_rules = flatten(
             [
                   local.allow_subnet_cidr_rules,

@@ -2,6 +2,11 @@
 # Account Variables
 ##############################################################################
 
+variable TF_VERSION {
+ default     = "0.13"
+ description = "The version of the Terraform engine that's used in the Schematics workspace."
+}
+
 variable ibmcloud_api_key {
   description = "The IBM Cloud platform API key needed to deploy IAM enabled resources"
   type        = string
@@ -72,20 +77,20 @@ variable cidr_blocks {
   default     = {
     zone-1 = [
       "10.10.10.0/28",
-      "10.20.10.0/28",
-      "10.30.10.0/28"
+      #"10.20.10.0/28",
+      #"10.30.10.0/28"
     ],
 
     zone-2 = [
       "10.40.10.0/28",
-      "10.50.10.0/28",
-      "10.60.10.0/28"
+      #"10.50.10.0/28",
+      #"10.60.10.0/28"
     ],
 
     zone-3 = [
       "10.70.10.0/28",
-      "10.80.10.0/28",
-      "10.90.10.0/28"
+      #"10.80.10.0/28",
+      #"10.90.10.0/28"
     ]
   }
 
@@ -125,19 +130,33 @@ variable acl_rules {
   description = "Access control list rule set"
   default = [
     {
-      name        = "allow-all-inbound"
+      name        = "roks-create-worker-nodes-inbound"
       action      = "allow"
-      source      = "0.0.0.0/0"
+      source      = "161.26.0.0/16"
       destination = "0.0.0.0/0"
       direction   = "inbound"
     },
     {
-      name        = "allow-all-outbound"
+      name        = "roks-nodes-to-service-inbound"
       action      = "allow"
-      source      = "0.0.0.0/0"
+      source      = "166.8.0.0/14"
       destination = "0.0.0.0/0"
+      direction   = "inbound"
+    },
+        {
+      name        = "roks-create-worker-nodes-outbound"
+      action      = "allow"
+      destination = "161.26.0.0/16"
+      source      = "0.0.0.0/0"
       direction   = "outbound"
-    }
+    },
+    {
+      name        = "roks-nodes-to-service-outbound"
+      action      = "allow"
+      destination = "166.8.0.0/14"
+      source      = "0.0.0.0/0"
+      direction   = "outbound"
+    },
   ]
   
   validation {
