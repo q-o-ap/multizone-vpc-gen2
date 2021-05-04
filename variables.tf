@@ -74,6 +74,7 @@ variable enable_public_gateway {
 
 variable cidr_blocks {
   description = "An object containing lists of CIDR blocks. Each CIDR block will be used to create a subnet"
+  type        = map
   default     = {
     zone-1 = [
       "10.10.10.0/28",
@@ -128,7 +129,8 @@ variable cidr_blocks {
 
 variable acl_rules {
   description = "Access control list rule set"
-  default = [
+  type        = list
+  default     = [
     {
       name        = "roks-create-worker-nodes-inbound"
       action      = "allow"
@@ -311,6 +313,7 @@ variable acl_rules {
 
 variable security_group_rules {
   description = "List of security group rules to be added to default security group"
+  type        = map
   default     = {
     allow_all_inbound = {
       source    = "0.0.0.0/0"
