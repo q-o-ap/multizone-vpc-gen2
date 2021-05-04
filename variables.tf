@@ -157,6 +157,20 @@ variable acl_rules {
       source      = "0.0.0.0/0"
       direction   = "outbound"
     },
+    {
+      name        = "allow-all-inbound"
+      action      = "allow"
+      source      = "0.0.0.0/0"
+      destination = "0.0.0.0/0"
+      direction   = "inbound"
+    },
+    {
+      name        = "allow-all-outbound"
+      action      = "allow"
+      source      = "0.0.0.0/0"
+      destination = "0.0.0.0/0"
+      direction   = "outbound"
+    }
   ]
   
   validation {
