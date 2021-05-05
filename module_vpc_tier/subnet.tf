@@ -52,7 +52,7 @@ resource ibm_is_subnet subnet {
   zone                     = local.subnet_list_from_object[count.index].zone_name
   ipv4_cidr_block          = ibm_is_vpc_address_prefix.subnet_prefix[count.index].cidr
   network_acl              = var.enable_acl_id ? var.acl_id : null
-  public_gateway           = var.public_gateways[local.subnet_list_from_object[count.index].zone - 1]
+  public_gateway           = length(var.public_gateways) == 0 ? null : var.public_gateways[local.subnet_list_from_object[count.index].zone - 1]
 }
 
 ##############################################################################

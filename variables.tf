@@ -69,7 +69,7 @@ variable classic_access {
 variable enable_public_gateway {
   description = "Enable public gateways for subnets, true or false."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable cidr_blocks {
